@@ -1,6 +1,7 @@
 const CronJob = require('cron').CronJob;
 const calculator = require('./calculator');
 const express = require('express')
+const bodyParser = require('body-parser')
 const port = process.env.PORT || 8080;
 
 // Fiddle around with these constants
@@ -23,12 +24,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.get('/calculate', (req, res) => {
-	const {symbol, daysToAverage} = req.params
+	const {symbol, daysToAverage} = req.query
+	console.log(`input params: ${symbol}  ${daysToAverage}`)
+
 	calculator(symbol, daysToAverage)
 		.then(responseObject => {
-			res.send(JSON.stringify(responseObject)
+			res.send(JSON.stringify(responseObject))
 		})
 		.catch(err => {
+			console.log(err)
 			res.send(err)
 		})
 })

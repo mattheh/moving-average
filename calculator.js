@@ -30,14 +30,14 @@ module.exports = function produceRecommendation (symbol, daysToAverage) {
     rp(priceRequestOptions),
     rp(historicalRequestOptions)
   ]).spread( (priceRes, historicalRes) => {
-    let responseObject = ''
+    let responseObject = {}
 
     let currentPrice = priceRes.USD;
     let movingAverage = _.meanBy(historicalRes.Data, (data) => { return data.close });
 
     console.log('The current price of ' + symbol + ' is ' + currentPrice);
     console.log('The ' + daysToAverage + ' day moving average is ' + movingAverage);
-    responseObject.currentPrince = currentPrice
+    responseObject.currentPrice = currentPrice
     responseObject.daysToAverage = daysToAverage
     responseObject.movingAverage = movingAverage
     responseObject.symbol = symbol
@@ -49,7 +49,6 @@ module.exports = function produceRecommendation (symbol, daysToAverage) {
       console.log('The recommended action is to sell all holdings into USD');
       responseObject.recommendation = 'SELL'
     }
-
     return responseObject
   });
 };
