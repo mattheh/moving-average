@@ -1,5 +1,7 @@
 const CronJob = require('cron').CronJob;
 const calculator = require('./calculator');
+const express = require('express')
+const port = process.env.PORT || 8080;
 
 // Fiddle around with these constants
 const symbol = 'BTC';
@@ -12,3 +14,23 @@ const job = new CronJob('00 22 * * * *', function() {
 });
 
 job.start();
+
+// express app
+const app = express()
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.json())
+
+app.get('/calculate', (req, res) => {
+	const {symbol, daysToAverage} = req.params
+	calculator(symbol, daysToAverage)
+		.then(responseObject => {
+			res.send(JSON.stringify(responseObject)
+		})
+		.catch(err => {
+			res.send(err)
+		})
+})
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))

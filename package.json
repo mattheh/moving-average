@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.5",
+    "body-parser": "^1.19.0",
     "cron": "^1.7.1",
+    "express": "^4.17.1",
     "lodash": "^4.17.11",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
