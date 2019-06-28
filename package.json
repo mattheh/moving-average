@@ -1,0 +1,19 @@
+{
+  "name": "gemini-app",
+  "version": "1.0.0",
+  "description": "Calculate moving average of a given crypto, and use this information to make buy/sell orders",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Hill",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.5",
+    "cron": "^1.7.1",
+    "lodash": "^4.17.11",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
