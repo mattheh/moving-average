@@ -31,16 +31,20 @@ module.exports = function produceRecommendation (symbol, daysToAverage) {
     rp(historicalRequestOptions)
   ]).spread( (priceRes, historicalRes) => {
   
+    let currentTime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     let currentPrice = priceRes.USD;
     let movingAverage = _.meanBy(historicalRes.Data, (data) => { return data.close });
   
-    console.log('The current price of ' + symbol + ' is ' + currentPrice);
-    console.log('The ' + daysToAverage + ' day moving average is ' + movingAverage);
+    console.log(
+      'The current time is ' + currentTime +
+      '\nThe current price of ' + symbol + ' is ' + currentPrice +
+      '\nThe ' + daysToAverage + ' day moving average is ' + movingAverage
+      );
   
     if ( currentPrice > movingAverage ) {
-      console.log('The recommended action is to HODL');
+      console.log('The recommended action is to HODL\n');
     } else {
-      console.log('The recommended action is to sell all holdings into USD');
+      console.log('The recommended action is to sell all holdings into USD\n');
     }
   });
 };
