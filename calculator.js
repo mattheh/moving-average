@@ -16,7 +16,7 @@ module.exports = function produceRecommendation (symbol, daysToAverage) {
     },
     json: true
   };
-  
+
   const priceRequestOptions = {
     method: 'GET',
     uri: baseUrl + currentPriceEndpoint + '?fsym=' + symbol + '&tsyms=USD',
@@ -25,26 +25,34 @@ module.exports = function produceRecommendation (symbol, daysToAverage) {
     },
     json: true
   };
-  
+
   return Promise.all([
     rp(priceRequestOptions),
     rp(historicalRequestOptions)
   ]).spread( (priceRes, historicalRes) => {
-  
+    let responseObject = {}
     let currentTime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
     let currentPrice = priceRes.USD;
     let movingAverage = _.meanBy(historicalRes.Data, (data) => { return data.close });
-  
+
+    responseObject.currentPrice = currentPrice
+    responseObject.daysToAverage = daysToAverage
+    responseObject.movingAverage = movingAverage
+    responseObject.symbol = symbol
+
     console.log(
       'The current time is ' + currentTime +
       '\nThe current price of ' + symbol + ' is ' + currentPrice +
       '\nThe ' + daysToAverage + ' day moving average is ' + movingAverage
       );
-  
+
     if ( currentPrice > movingAverage ) {
       console.log('The recommended action is to HODL\n');
+      responseObject.recommendation = 'HODL'
     } else {
       console.log('The recommended action is to sell all holdings into USD\n');
+      responseObject.recommendation = 'SELL'
     }
+    return responseObject
   });
 };
