@@ -1,6 +1,6 @@
 {
-  "name": "gemini-app",
-  "version": "1.0.0",
+  "name": "moving-average",
+  "version": "0.0.1",
   "description": "Calculate moving average of a given crypto, and use this information to make buy/sell orders",
   "main": "app.js",
   "scripts": {
